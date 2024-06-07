@@ -35,7 +35,7 @@ app.get("/consulta", async (req, res) =>{
             telefone:doc.get('telefone'),
             origem:doc.get('origem'),
             data_contato:doc.get('data_contato'),
-            obervacao:doc.get('observcao')
+            observacao:doc.get('observacao')
 
         })
     });
@@ -75,12 +75,11 @@ app.get('/editar/:id',async (req,res)=>{
   })
    
   app.get('/excluir/:id',async (req,res)=>{
-    const pessoas = db.collection('agendamentos')
-    const deletar = await pessoas.update({
-      id: FieldValue.delete(),
-      nome: Field
+    const docId = req.params.id;
+    const pessoas = await db.collection('agendamentos').doc(docId).delete();
+    res.redirect('/consulta')
     })
-  })
+
 
 app.post("/cadastrar", function(req, res){
     var result = db.collection('agendamentos').add({
